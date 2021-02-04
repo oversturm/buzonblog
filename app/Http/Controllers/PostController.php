@@ -17,6 +17,9 @@ class PostController extends Controller
 
     public function show(Post $post){
 
+         //Metodo de autorizacion Policy para impedir el paso a post que no estan publicados
+        $this->authorize('publisher', $post);
+
         $similares = Post::where('category_id', $post->category_id)
                             ->where('status', 2)
                             ->where('id', '!=', $post->id)
