@@ -3,11 +3,11 @@
 @section('title', 'Buzón Test')
 
 @section('content_header')
-    <h1>Mostrad Detalle</h1>
+    <h1>Lista de Usuarios</h1>
 @stop
 
 @section('content')
-    <p>Esta es una prueba de Panel de Administración</p>
+    @livewire('admin.user-index')
 @stop
 
 @section('css')

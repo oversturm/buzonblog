@@ -17,7 +17,7 @@ class PostsIndex extends Component
 
     //funcion creada para incluirla como un metodo de livewire y aplicado en render
     public $search;
-
+    //Hace que se reinicie la pagina despues de cualquier busqueda
     public function updatingSearch(){
         $this->resetPage();
     }

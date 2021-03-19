@@ -6,12 +6,36 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Category;
 use App\Models\Tag;
+use Illuminate\Support\Facades\Cache;
 
 class PostController extends Controller
 {
     public function index(){
-        // Recupere los post cuando esten publicados ya que status en 1 era borrador y en 2 era publicado para generar la coleccion el metodo get
-        $posts = Post::where('status', 2)->latest('id')->paginate(8);
+        //USi por la url estamos pasando la informacion de la pagina si la pasamos
+        //Si la mandamos la almacenamos en en la variable key ,caddena post con la informacion de la pagina
+        //Caso que no que me almacene solo post y seguira almacenandose en key porque sera dinamica
+        if (request()->page) {
+            $key = 'posts' . request()->page;
+        } else {
+            $key = 'posts';
+        }
+
+
+        if (Cache::has($key)) {
+
+            $posts = Cache::get($key);
+
+        } else {
+
+            // Recupere los post cuando esten publicados ya que status en 1 era borrador y en 2 era publicado para generar la coleccion el metodo get
+            $posts = Post::where('status', 2)->latest('id')->paginate(8);
+            //Almacenamos en cache
+            Cache::put($key, $posts);
+        }
+
+
+
+
         return view('posts.index', compact('posts'));
     }
 
